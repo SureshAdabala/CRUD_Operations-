@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "name": "Monkey",
+      "image": "https://a-z-animals.com/media/2022/09/shutterstock_1754084492-2048x1365.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Cat",
+      "image": "https://3.bp.blogspot.com/-THYAMNcnGl4/UnUlgI0OYWI/AAAAAAAABQQ/-Nm-12QPDLo/s1600/Cat.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Dog",
+      "image": "https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "4",
+      "name": "Elephant",
+      "image": "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "5",
+      "name": "Lion",
+      "image": "https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "6",
+      "name": "Tiger",
+      "image": "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "7",
+      "name": "Zebra",
+      "image": "https://images.unsplash.com/photo-1501706362039-c06b2d715385?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "8",
+      "name": "Giraffe",
+      "image": "https://images.unsplash.com/photo-1547721064-da6cfb341d50?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    }
+  ]
+}

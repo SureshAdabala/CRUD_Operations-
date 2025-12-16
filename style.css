@@ -1,0 +1,317 @@
+/* Global Styles */
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --background-color: #f3f4f6;
+    --card-background: #ffffff;
+    --text-color: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: #d1d5db;
+    --radius: 8px;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Main Layout */
+body {
+    flex-direction: column;
+    width: 90%;
+    /* Prevent edge-to-edge touching */
+    max-width: 1400px;
+    /* Optimal reading/viewing width */
+    margin: 0 auto;
+    /* Center the whole page content */
+    padding: 2rem 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/*
+   Since HTML structure is flat (in body: inputs then container),
+   we need to style the inputs as if they were in a container.
+   We can't wrap them, so we style them individually to have a max-width
+   or target them to look grouped?
+   No, we can just center them and give them a max-width.
+
+   Items before #container: label, input, button.
+*/
+
+label,
+input,
+button#saveData {
+    max-width: 400px;
+    /* Reduced form width for compact look */
+    width: 100%;
+    /* Take full width up to max-width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Typography & Layout */
+label {
+    align-self: center;
+    /* Since flex direction is column, this centers it relative to max-width? 
+                          No, align-self works on cross axis. body is column, cross axis is horizontal. 
+                          But we also used width: 100% and max-width. */
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-size: 0.875rem;
+    display: block;
+    text-align: left;
+    /* Keep label text left aligned within its box */
+    /* To make label start at the same place as input, it needs the same width constraint */
+}
+
+/* Remove separate <br> effect by making inputs block */
+br {
+    display: none;
+}
+
+input[type="number"],
+input[type="text"] {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    background-color: white;
+    /* Ensure inputs have bg since body has bg now? Wait body bg is card-bg? */
+}
+
+/* Update Body BG */
+/* We previously had card-bg on body. Now body should be background-color (#f3f4f6). */
+/* And maybe we want a "card" look for the form? We can't put a background behind multiple elements unless they are wrapped. 
+   So we will just have floating inputs on the page bg, or give them their own shadow/white bg?
+   Standard inputs on page bg is fine for clean look. Or we can give inputs white bg.
+*/
+
+input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Button Styling */
+button#saveData {
+    padding: 0.875rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 1rem;
+}
+
+button#saveData:hover {
+    background-color: var(--primary-hover);
+}
+
+button#saveData:active {
+    transform: translateY(1px);
+}
+
+/* Data Container - Grid Layout */
+#container {
+    width: 100%;
+    margin-top: 3rem;
+    /* More breathing room */
+    border-top: 1px solid var(--border-color);
+    padding-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    /* Larger gap */
+}
+
+/* Card Styling */
+#container>p {
+    background: var(--card-background);
+    padding: 1.5rem;
+    /* Reduced padding */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Lighter shadow */
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0;
+    transition: all 0.3s ease;
+    min-height: 280px;
+    /* Reduced height */
+}
+
+#container>p:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography inside Cards */
+#container h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.125rem;
+    /* Standard title size */
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+#container h4 {
+    margin: 0 0 1rem 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Image Styling */
+#container img {
+    width: 100%;
+    height: 160px;
+    /* Smaller image */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1.25rem;
+    background-color: #f3f4f6;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Button Grouping */
+/* Since buttons are siblings in the <p>, we can't wrap them in a div without changing JS. 
+   But we can use flexbox on the <p> (card) to arrange them? 
+   The buttons are just appended at the end. 
+   Let's check the JS structure again:
+   <h3>...</h3>
+   <h4>...</h4>
+   <img>
+   <button>Delete</button>
+   <button>Edit</button>
+   
+   If <p> is flex-column, buttons will stack. 
+   We want buttons "side by side".
+   We can wrap the buttons? No, can't change JS.
+   We can set the buttons to `display: inline-block` and maybe width 45%?
+   Or if <p> is display: grid? 
+   Let's try: 
+   Button container behavior isn't there, so we have to rely on order.
+*/
+
+#container button {
+    width: 48%;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-top: auto;
+    border-radius: 6px;
+    letter-spacing: 0.025em;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0.5rem 1%;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    border: none;
+}
+
+#container button:active {
+    transform: scale(0.98);
+}
+
+/* We need to make sure buttons sit next to each other. 
+   If the parent <p> is `display: flex; flex-direction: column;`, the buttons will stack.
+   Wait, if we want buttons side-by-side at the bottom, we shouldn't use `flex-direction: column` for the whole card unless we can group the buttons.
+   We CANNOT group buttons because they are direct children.
+   
+   Alternative: `display: block` or `inline-block` for card content?
+   But we want centering.
+   
+   Let's use `display: flex; flex-wrap: wrap; justify-content: space-between;` for the card <p>?
+   Items: h3 (100%), h4 (100%), img (100%), btn1 (48%), btn2 (48%).
+*/
+
+#container>p {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+}
+
+#container h3,
+#container h4,
+#container img {
+    width: 100%;
+}
+
+#container button {
+    width: 48%;
+    /* Reverted to 48% */
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+/* Specific Button Colors */
+/* Since we don't have classes, we differentiate by order or text content? 
+   CSS doesn't select by text. 
+   We have `onclick= deleteData` and `onclick= editData`.
+   We can use attribute selector! `button[onclick*="deleteData"]`
+*/
+
+button[onclick*="deleteData"] {
+    background-color: #fee2e2;
+    /* Soft red bg */
+    color: #b91c1c;
+    /* Strong red text */
+}
+
+button[onclick*="deleteData"]:hover {
+    background-color: #fecaca;
+}
+
+button[onclick*="editData"] {
+    background-color: #e0e7ff;
+    /* Soft blue bg */
+    color: #4338ca;
+    /* Strong blue text */
+}
+
+button[onclick*="editData"]:hover {
+    background-color: #c7d2fe;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    #container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    #container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    #container {
+        grid-template-columns: 1fr;
+    }
+}
