@@ -59,7 +59,7 @@ btn.onclick = async () => {
     let res = await fetch(`https://69418c1e686bc3ca81675dc8.mockapi.io/Data/${id}`)
     if (res.ok) {
         let edited = fetch(`https://69418c1e686bc3ca81675dc8.mockapi.io/Data/${id}`, {
-            "method": "PATCH",
+            "method": "PUT",
             "headers": {
                 "Content-type": "application/json"
             },
