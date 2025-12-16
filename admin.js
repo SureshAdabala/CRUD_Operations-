@@ -1,7 +1,7 @@
 
 async function getData() {
     try {
-        let res = await fetch("https://69418c1e686bc3ca81675dc8.mockapi.io/Data")
+        let res = await fetch("https://crud-operations-go9g.onrender.com/data")
         if (!res.ok) {
             throw new Error("Something went Error");
         }
@@ -29,7 +29,7 @@ function fetchData(data) {
 
 //For Deleting Purpose
 async function deleteData(id) {
-    let res1 = await fetch(`https://69418c1e686bc3ca81675dc8.mockapi.io/Data/${id}`, {
+    let res1 = await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`, {
         "method": "DELETE"
     });
     getData();
@@ -56,9 +56,9 @@ btn.onclick = async () => {
         return;
     }
 
-    let res = await fetch(`https://69418c1e686bc3ca81675dc8.mockapi.io/Data/${id}`)
+    let res = await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`)
     if (res.ok) {
-        let edited = fetch(`https://69418c1e686bc3ca81675dc8.mockapi.io/Data/${id}`, {
+        let edited = fetch(`https://crud-operations-go9g.onrender.com/data/${id}`, {
             "method": "PATCH",
             "headers": {
                 "Content-type": "application/json"
@@ -70,7 +70,7 @@ btn.onclick = async () => {
         });
     }
     else {
-        let newlyAdded = fetch(`https://69418c1e686bc3ca81675dc8.mockapi.io/Data`, {
+        let newlyAdded = fetch(`https://crud-operations-go9g.onrender.com/data`, {
             "method": "POST",
             "headers": {
                 "Content-type": "application/json"
