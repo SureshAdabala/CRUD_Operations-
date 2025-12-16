@@ -58,7 +58,7 @@ btn.onclick = async () => {
 
     let res = await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`)
     if (res.ok) {
-        let edited = fetch(`https://crud-operations-go9g.onrender.com/data/${id}`, {
+        let edited = await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`, {
             "method": "PATCH",
             "headers": {
                 "Content-type": "application/json"
@@ -70,7 +70,7 @@ btn.onclick = async () => {
         });
     }
     else {
-        let newlyAdded = fetch(`https://crud-operations-go9g.onrender.com/data`, {
+        let newlyAdded = await fetch(`https://crud-operations-go9g.onrender.com/data`, {
             "method": "POST",
             "headers": {
                 "Content-type": "application/json"
