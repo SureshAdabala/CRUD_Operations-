@@ -59,7 +59,7 @@ btn.onclick = async () => {
 
     let res = await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`)
     if (res.ok) {
-        let edited = await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`, {
+        await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`, {
             "method": "PATCH",
             "headers": {
                 "Content-type": "application/json"
@@ -69,10 +69,10 @@ btn.onclick = async () => {
                 image
             })
         });
-        alert("Animal Details New Details added SuccesFully");
+        alert("Animal New Details added SuccesFully");
     }
     else {
-        let newlyAdded = await fetch(`https://crud-operations-go9g.onrender.com/data`, {
+        await fetch(`https://crud-operations-go9g.onrender.com/data`, {
             "method": "POST",
             "headers": {
                 "Content-type": "application/json"
@@ -83,7 +83,7 @@ btn.onclick = async () => {
                 image
             })
         });
-         alert("Animal Details added SuccesFully");
+        alert("Animal Details added SuccesFully");
     }
     getData();
-}
+} 
