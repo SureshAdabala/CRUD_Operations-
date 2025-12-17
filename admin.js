@@ -32,6 +32,7 @@ async function deleteData(id) {
     let res1 = await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`, {
         "method": "DELETE"
     });
+    alert("Animal Details Removed Succesfully")
     getData();
 }
 getData();
@@ -68,6 +69,7 @@ btn.onclick = async () => {
                 image
             })
         });
+        alert("Animal Details New Details added SuccesFully");
     }
     else {
         let newlyAdded = await fetch(`https://crud-operations-go9g.onrender.com/data`, {
@@ -81,10 +83,7 @@ btn.onclick = async () => {
                 image
             })
         });
+         alert("Animal Details added SuccesFully");
     }
     getData();
 }
-
-
-
-
