@@ -1,24 +1,31 @@
 
+require('dotenv').config();
 const mysql = require('mysql2/promise');
 
 async function setupDatabase() {
     const config = {
-        host: 'localhost',
-        user: 'root',
-        password: 'root', // As provided by user
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        port: process.env.DB_PORT || 3306,
+        ssl: { rejectUnauthorized: false }
     };
 
     try {
         // Connect to MySQL server
+        // Note: For Aiven, we connect directly to the DB provided in config, 
+        // so we don't need to create the DB manually if it's already there (defaultdb).
         const connection = await mysql.createConnection(config);
         console.log("Connected to MySQL server.");
 
-        // Create Database if not exists
-        await connection.query(`CREATE DATABASE IF NOT EXISTS user_dashboard_db`);
-        console.log("Database 'user_dashboard_db' checks out.");
+        // Skip CREATE DATABASE for cloud DBs as we usually get a pre-provisioned one.
+        // await connection.query(`CREATE DATABASE IF NOT EXISTS user_dashboard_db`);
+        // console.log("Database 'user_dashboard_db' checks out.");
 
         // Use the database
-        await connection.query(`USE user_dashboard_db`);
+        // Use the database
+        // await connection.query(`USE user_dashboard_db`);
 
         // Create Users Table
         const createTableQuery = `
