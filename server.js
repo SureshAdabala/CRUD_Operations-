@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
@@ -14,11 +15,14 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname))); // Serve static files from root
 
 // MySQL Connection Pool
+// MySQL Connection Pool
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'user_dashboard_db',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306,
+  ssl: { rejectUnauthorized: false }, // Required for Aiven/Cloud DBs
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
