@@ -1,10 +1,17 @@
 {
-  "name": "json-server-api",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "json-server": "^0.17.4"
-  }
+    "name": "user-dashboard-app",
+    "version": "1.0.0",
+    "description": "Admin and User Dashboard with MySQL Auth",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "setup": "node setup_database.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.5",
+        "express": "^4.19.2",
+        "json-server": "^0.17.4",
+        "mysql2": "^3.9.2"
+    }
 }

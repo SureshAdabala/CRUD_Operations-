@@ -1,7 +1,19 @@
+
+// Check for User Login
+if (!localStorage.getItem("username")) {
+    alert("Please Login First");
+    window.location.href = "login.html";
+}
+
+function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
+}
+
 async function gettingData() {
     try {
         let res = await fetch("https://crud-operations-go9g.onrender.com/data");
-        if(!res.ok) {
+        if (!res.ok) {
             throw new Error("Something Went Wrong");
         }
         let data = await res.json();
@@ -13,12 +25,12 @@ async function gettingData() {
 
 function fetchData1(data) {
     let div1 = document.getElementById("container");
-    data.forEach(ele=>{
+    data.forEach(ele => {
         let p = document.createElement("p");
         p.innerHTML = `
          <h3>Animal ID: ${ele.id}</h3>
-        <h4>Animal Name: ${ele.name}<h4>
-        <img src = "${ele.image}">`
+        <h4>Animal Name: ${ele.name}</h4>
+        <img src="${ele.image}">`
         div1.appendChild(p);
     });
 }

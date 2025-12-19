@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Animal Data Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="login-body">
+
+    <h1>Animal Data Management System</h1>
+
+    <div class="login-container">
+        <!-- Signup Form -->
+        <div id="signupForm" class="auth-form">
+            <h2>Create Account</h2>
+            <p class="subtitle">Sign up to get started</p>
+
+            <div class="form-group">
+                <label for="signupUsername">Username</label>
+                <input type="text" id="signupUsername" placeholder="Choose a username">
+            </div>
+
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" placeholder="name@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Create a password">
+            </div>
+
+            <div class="form-group">
+                <label for="signupRole">Role</label>
+                <select id="signupRole">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
+            <button onclick="signup()" class="btn-primary">Sign Up</button>
+
+            <p class="switch-auth">
+                Already have an account? <a href="login.html">Sign In</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+
+</html>

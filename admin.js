@@ -1,3 +1,13 @@
+// Check for Admin Role
+if (localStorage.getItem("role") !== "admin") {
+    alert("Admin Access Only");
+    window.location.href = "login.html"
+}
+
+function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
+}
 
 async function getData() {
     try {
@@ -16,13 +26,15 @@ function fetchData(data) {
     let div = document.getElementById("container");
     div.innerHTML = "";
     data.forEach(ele => {
-        let p = document.createElement("p")
+        let p = document.createElement("p");
         p.innerHTML = `
         <h3>Animal ID: ${ele.id}</h3>
-        <h4>Animal Name: ${ele.name}<h4>
-        <img src = "${ele.image}">
-        <button onclick= deleteData('${ele.id}')>Delete</button>
-        <button onclick= editData('${ele.id}','${ele.name}','${ele.image}')>Edit</button>`
+        <h4>Animal Name: ${ele.name}</h4>
+        <img src="${ele.image}" alt="${ele.name}">
+        <div class="action-buttons">
+            <button onclick="editData('${ele.id}','${ele.name}','${ele.image}')">Edit</button>
+            <button onclick="deleteData('${ele.id}')">Delete</button>
+        </div>`
         div.appendChild(p);
     });
 }
@@ -35,13 +47,14 @@ async function deleteData(id) {
     alert("Animal Details Removed Succesfully")
     getData();
 }
-getData();
 
 //For Edit purpose
 function editData(id, name, image) {
     document.getElementById("id").value = id;
     document.getElementById("name").value = name;
     document.getElementById("image").value = image;
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 
@@ -59,7 +72,7 @@ btn.onclick = async () => {
 
     let res = await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`)
     if (res.ok) {
-        await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`, {
+        let edited = await fetch(`https://crud-operations-go9g.onrender.com/data/${id}`, {
             "method": "PATCH",
             "headers": {
                 "Content-type": "application/json"
@@ -69,10 +82,10 @@ btn.onclick = async () => {
                 image
             })
         });
-        alert("Animal New Details added SuccesFully");
+        alert("Animal Details New Details added SuccesFully");
     }
     else {
-        await fetch(`https://crud-operations-go9g.onrender.com/data`, {
+        let newlyAdded = await fetch(`https://crud-operations-go9g.onrender.com/data`, {
             "method": "POST",
             "headers": {
                 "Content-type": "application/json"
@@ -86,4 +99,6 @@ btn.onclick = async () => {
         alert("Animal Details added SuccesFully");
     }
     getData();
-} 
+}
+
+getData();
