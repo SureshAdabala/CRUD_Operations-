@@ -12,31 +12,79 @@
 
     <h1>Animal Data Management System</h1>
     <div class="nav-container">
-        <!-- Removed User Details Link -->
+        <button onclick="toggleAdminSection()" class="btn-secondary">Manage Admins</button>
+        <button onclick="window.location.href='user.html'" class="btn-secondary">User View</button>
         <button onclick="logout()" class="nav-link logout-btn">Logout</button>
     </div>
 
-    <div class="form-group">
-        <label for="id">Enter ID No :</label>
-        <input type="number" id="id">
+    <!-- Animal Data Management Section (Visible by Default) -->
+    <div id="dataSection">
+        <div class="form-container">
+            <h3>Add New Animal</h3>
+            <div class="form-group">
+                <label for="id">Enter ID No :</label>
+                <input type="number" id="id">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Enter Animal Name :</label>
+                <input type="text" id="name">
+            </div>
+
+            <div class="form-group">
+                <label for="image">Enter Image URL :</label>
+                <input type="text" id="image">
+            </div>
+
+            <div class="form-group submit-container">
+                <button type="submit" id="saveData">Add Animal</button>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="name">Enter Animal Name :</label>
-        <input type="text" id="name">
-    </div>
+    <!-- Manage Admins & Users Section (Hidden by default, Wrapper Hidden) -->
+    <div class="admin-management" id="adminWrapper" style="display: none;">
+        <!-- Add New Account Form -->
+        <div class="form-container" id="adminSection">
+            <h3>Manage Accounts</h3>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="newAdminUsername" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="newAdminEmail" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="newAdminPassword" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select id="newAccountRole">
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                </select>
+            </div>
+            <button onclick="createAccount()" class="btn-secondary">Create Account</button>
+        </div>
 
-    <div class="form-group">
-        <label for="image">Enter Image URL :</label>
-        <input type="text" id="image">
-    </div>
 
-    <div class="form-group submit-container">
-        <button type="submit" id="saveData">Add Animal</button>
+        <!-- User List (Cards Layout) -->
+        <div class="user-list-container"
+            style="margin-top: 50px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+            <h3 style="text-align: center; color: #ffffff; margin-bottom: 20px;">Registered Accounts</h3>
+            <div id="userCardsContainer" class="user-cards-grid">
+                <!-- User Cards will be populated here -->
+            </div>
+        </div>
     </div>
+    <hr>
 
-    <div id="container">
-        <!-- Animal Data Cards will be appended here -->
+    <div id="dataListSection">
+        <hr>
+        <h2>Manage Animal Data</h2>
+        <div id="container"></div>
     </div>
 
     <script src="./admin.js"></script>

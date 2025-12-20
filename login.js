@@ -3,11 +3,11 @@ const API_BASE = window.location.hostname === 'localhost' || window.location.hos
 
 // Login Function
 async function login() {
-    const usernameInput = document.getElementById('loginUsername').value.trim();
+    const emailInput = document.getElementById('loginEmail').value.trim();
     const passwordInput = document.getElementById('loginPassword').value;
 
-    if (!usernameInput || !passwordInput) {
-        alert("Please enter username and password");
+    if (!emailInput || !passwordInput) {
+        alert("Please enter email and password");
         return;
     }
 
@@ -15,14 +15,14 @@ async function login() {
         const res = await fetch(`${API_BASE}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: usernameInput, password: passwordInput })
+            body: JSON.stringify({ email: emailInput, password: passwordInput })
         });
 
         const data = await res.json();
 
         if (res.ok && data.success) {
-            localStorage.setItem("role", data.user.role);
-            localStorage.setItem("username", data.user.username);
+            sessionStorage.setItem("role", data.user.role);
+            sessionStorage.setItem("username", data.user.username);
 
             if (data.user.role === 'admin') {
                 window.location.href = "index.html";
@@ -43,7 +43,6 @@ async function signup() {
     const username = document.getElementById('signupUsername').value.trim();
     const email = document.getElementById('signupEmail').value.trim();
     const password = document.getElementById('signupPassword').value;
-    const role = document.getElementById('signupRole').value;
 
     if (!username || !email || !password) {
         alert("Please fill in all fields");
@@ -54,7 +53,7 @@ async function signup() {
         const res = await fetch(`${API_BASE}/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password, role })
+            body: JSON.stringify({ username, email, password })
         });
 
         const data = await res.json();

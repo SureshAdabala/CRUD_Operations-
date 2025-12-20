@@ -1,18 +1,19 @@
 
 // Check for User Login
-if (!localStorage.getItem("username")) {
-    alert("Please Login First");
+if (!sessionStorage.getItem("username")) {
     window.location.href = "login.html";
 }
 
 function logout() {
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = "login.html";
 }
 
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? "http://localhost:3000" : "";
+
 async function gettingData() {
     try {
-        let res = await fetch("https://crud-operations-go9g.onrender.com/data");
+        let res = await fetch(`${API_BASE}/data`);
         if (!res.ok) {
             throw new Error("Something Went Wrong");
         }

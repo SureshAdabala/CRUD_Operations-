@@ -1,114 +1,172 @@
-require('dotenv').config();
-const express = require('express');
-const mysql = require('mysql2/promise');
-const cors = require('cors');
-const bodyParser = require('body-parser');
 const jsonServer = require('json-server');
 const path = require('path');
+const server = jsonServer.create();
+const router = jsonServer.router('db.json');
+const middlewares = jsonServer.defaults({ static: './' });
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname))); // Serve static files from root
+server.use(middlewares);
+server.use(jsonServer.bodyParser);
 
-// MySQL Connection Pool
-// MySQL Connection Pool
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306,
-  ssl: { rejectUnauthorized: false }, // Required for Aiven/Cloud DBs
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+// Access the lowdb database instance
+const db = router.db;
 
-// Auth Routes
+// Initialize Default Admin
+function initializeDefaultAdmin() {
+  const defaultAdminEmail = 'sureshadabala0836@gmail.com';
+  const existing = db.get('users').find({ email: defaultAdminEmail }).value();
+
+  if (!existing) {
+    const users = db.get('users').value();
+    const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+
+    db.get('users')
+      .push({
+        id: newId,
+        username: 'Default Admin',
+        email: defaultAdminEmail,
+        password: 'Suresh@23',
+        role: 'admin',
+        created_at: new Date().toISOString()
+      })
+      .write();
+    console.log('✅ Default Admin created: sureshadabala0836@gmail.com');
+  } else {
+    console.log('ℹ️ Default Admin already exists');
+  }
+}
+
+initializeDefaultAdmin();
+
+// Custom Auth Routes
 
 // POST /login
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+server.post('/login', (req, res) => {
+  const { email, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ message: "Username and password required" });
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password required" });
   }
 
-  try {
-    const [rows] = await pool.query(
-      'SELECT * FROM users WHERE username = ? AND password = ?',
-      [username, password]
-    );
+  const user = db.get('users').find({ email: email, password: password }).value();
 
-    if (rows.length > 0) {
-      const user = rows[0];
-      // In production, NEVER return password
-      res.json({
-        success: true,
-        user: {
-          id: user.id,
-          username: user.username,
-          role: user.role
-        }
-      });
-    } else {
-      res.status(401).json({ message: "Invalid credentials" });
-    }
-  } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: "Server error" });
+  if (user) {
+    res.json({
+      success: true,
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role
+      }
+    });
+  } else {
+    res.status(401).json({ message: "Invalid credentials" });
   }
 });
 
-// POST /signup
-app.post('/signup', async (req, res) => {
-  const { username, email, password, role } = req.body;
+// POST /signup (Public)
+server.post('/signup', (req, res) => {
+  const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  try {
-    // Check availability
-    const [existing] = await pool.query('SELECT username FROM users WHERE username = ?', [username]);
-    if (existing.length > 0) {
-      return res.status(409).json({ message: "Username already exists" });
-    }
-
-    const userRole = role === 'admin' ? 'admin' : 'user';
-
-    const [result] = await pool.query(
-      'INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)',
-      [username, email, password, userRole]
-    );
-
-    res.status(201).json({
-      success: true,
-      message: "User registered successfully"
-    });
-
-  } catch (error) {
-    console.error("Signup error:", error);
-    res.status(500).json({ message: "Server error" });
+  const existing = db.get('users').find(u => u.username === username || u.email === email).value();
+  if (existing) {
+    return res.status(409).json({ message: "Username or Email already exists" });
   }
+
+  const users = db.get('users').value();
+  const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+
+  const newUser = {
+    id: newId,
+    username,
+    email,
+    password,
+    role: 'user',
+    created_at: new Date().toISOString()
+  };
+
+  db.get('users').push(newUser).write();
+
+  res.status(201).json({ success: true, message: "User registered successfully" });
 });
 
-// JSON Server for Animal Data (Mount at /data to avoid conflicts, or root if needed)
-// To keep existing frontend logic (which expects /data endpoint), we mount the router directly.
-// But we also need static file serving if users open localhost:3000 (optional).
+// POST /admin/create (Admin Create Account)
+server.post('/admin/create', (req, res) => {
+  const { username, email, password, role } = req.body;
 
-const router = jsonServer.router('db.json');
-const middlewares = jsonServer.defaults();
+  if (!username || !email || !password || !role) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
-app.use(middlewares); // Logger, static, cors, no-cache
-app.use(router); // Everything else goes to json-server (GET /data, GET /data/:id etc)
+  const existing = db.get('users').find(u => u.username === username || u.email === email).value();
+  if (existing) {
+    return res.status(409).json({ message: "Username or Email already exists" });
+  }
 
-app.listen(PORT, () => {
+  const users = db.get('users').value();
+  const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+
+  const newAccount = {
+    id: newId,
+    username,
+    email,
+    password,
+    role: role, // 'admin' or 'user'
+    created_at: new Date().toISOString()
+  };
+
+  db.get('users').push(newAccount).write();
+
+  res.status(201).json({ success: true, message: `New ${role} created successfully` });
+});
+
+// GET /users (Custom List)
+server.get('/users', (req, res) => {
+  // Return only public info
+  const users = db.get('users').value().map(u => ({
+    id: u.id,
+    username: u.username,
+    email: u.email,
+    role: u.role
+  }));
+  res.json(users);
+});
+
+// DELETE /users/:id
+server.delete('/users/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  db.get('users').remove({ id: id }).write();
+  res.json({ success: true, message: "User deleted successfully" });
+});
+
+// PATCH /users/:id
+server.patch('/users/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const updates = req.body;
+
+  // Find user
+  const user = db.get('users').find({ id: id }).value();
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Update user
+  db.get('users').find({ id: id }).assign(updates).write();
+
+  res.json({ success: true, message: "User updated successfully" });
+});
+
+// Mount JSON Server Router for other capabilities (e.g. /data)
+server.use(router);
+
+server.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`MySQL Auth available at /login & /signup`);
-  console.log(`Animal Data API available via json-server`);
+  console.log(`Local Auth & Data API (db.json) is active. No MySQL required.`);
 });

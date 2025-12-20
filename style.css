@@ -1,22 +1,33 @@
+* {
+    box-sizing: border-box;
+}
+
 :root {
-    --primary-color: #4f46e5;
-    --primary-hover: #4338ca;
-    --background-color: #f3f4f6;
+    /* New Palette from Image + Deep Navy Background */
+    --color-deep-navy: #0C2B4E;
+    /* ... rest of root ... */
+    --color-dark-purple: #3e3065;
+    --color-muted-blue: #515f93;
+    --color-muted-teal: #8abebb;
+    --color-pale-mint: #dff6ed;
+
+    --primary-color: var(--color-muted-blue);
+    --primary-hover: var(--color-muted-teal);
+    --background-color: var(--color-deep-navy);
+    /* Deep Navy Background */
     --card-background: #ffffff;
-    --text-color: #1f2937;
-    --text-secondary: #6b7280;
-    --border-color: #d1d5db;
-    --radius: 8px;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    --text-color: #ffffff;
+    /* White text for dark bg */
+    --text-secondary: #9ca3af;
+    --border-color: var(--color-muted-teal);
+    --radius: 12px;
+    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --font-family: 'Poppins', system-ui, -apple-system, sans-serif;
 }
 
 body {
     font-family: var(--font-family);
     background-color: var(--background-color);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     color: var(--text-color);
     margin: 0;
     padding: 2rem;
@@ -25,31 +36,55 @@ body {
     align-items: center;
     min-height: 100vh;
     box-sizing: border-box;
+    /* Clean background, no images */
 }
 
-/* Page Specific Backgrounds */
-.login-body {
-    background-image: url('./pics/auth.png');
+/* Page Specific Backgrounds - Removed Images, ensuring consistent theme */
+.login-body,
+.admin-body,
+.user-body {
+    background-image: none;
+    background-color: var(--background-color);
 }
 
-.admin-body {
-    background-image: url('./pics/admin_dark.png');
-    color: white;
-    /* Default text white on dark bg */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Admin Management Styles (Wrapper) */
+.admin-management {
+    width: 100%;
+    /* Ensure full width within parent */
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    /* Adjust padding to prevent overflow */
+    /* Transparent wrapper to separate Form and Cards */
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
 }
 
-/* Ensure headings and labels are readable on dark admin background */
-.admin-body h1 {
-    color: white;
+.section-title h2 {
+    color: #ffffff;
+    border-bottom: 2px solid var(--color-muted-teal);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Ensure headings/text are readable on the new dark background */
+.admin-body h1,
+.admin-body label {
+    color: #ffffff;
+}
+
+/* IMPORTANT: Ensure labels inside the WHITE form cards are DARK */
+.form-container label,
+.user-card label {
+    color: #1f2937 !important;
 }
 
 .admin-body label {
+    /* Remove the blanket override for secondary text on body labels if needed, or keep generic white */
     color: #e5e7eb;
-    /* Light grey for labels */
-}
-
-.user-body {
-    background-image: url('./pics/user.png');
 }
 
 h1 {
@@ -61,35 +96,71 @@ h1 {
 }
 
 /* Nav Container - Adjusted to keep Top-Right Logout functionality */
+/* Nav Container - Centered and Balanced */
 .nav-container {
     width: 100%;
     max-width: 1200px;
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1rem;
+    justify-content: center;
+    /* Center aligned */
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+    /* Better spacing */
+}
+
+.nav-container button {
+    min-width: 200px;
+    /* Same width */
+    height: 3.5rem;
+    /* Same height */
+    padding: 0 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .logout-btn {
-    padding: 0.5rem 1rem;
-    background-color: var(--primary-color);
+    background-color: #ef4444;
+    /* Distinct Red for Logout */
     color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
 }
 
 .logout-btn:hover {
-    background-color: var(--primary-hover);
+    background-color: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.3);
+}
+
+/* Specific override for Manage Admins button in nav to ensure it matches logout style if needed, 
+   but .nav-container button covers size. Just ensure color. */
+.nav-container .btn-secondary {
+    background-color: var(--color-muted-blue);
+    color: white;
+}
+
+.nav-container .btn-secondary:hover {
+    background-color: var(--color-dark-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(62, 48, 101, 0.3);
 }
 
 /* Form Styling */
 label {
     display: block;
     margin-bottom: 0.5rem;
-    color: var(--text-secondary);
-    font-weight: 500;
+    color: #111827;
+    /* Darker black for better contrast */
+    font-weight: 600;
+    /* Bold for visibility */
+    font-size: 1.1rem;
+    /* Larger font size */
 }
 
 input[type="number"],
@@ -99,18 +170,27 @@ input[type="email"],
 select {
     width: 100%;
     max-width: 100%;
-    /* Allow input to fill the 600px form-group */
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border-color);
+    padding: 1rem;
+    /* More padding */
+    border: 2px solid #9ca3af;
+    /* Thicker, darker border */
     border-radius: var(--radius);
     margin-bottom: 1.5rem;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    /* Larger font size */
+    font-weight: 500;
+    color: #000000;
+    /* Pure black text */
+    background-color: #ffffff;
     box-sizing: border-box;
     transition: border-color 0.2s;
-    background-color: white;
-    color: var(--text-color);
     display: block;
-    /* Ensure they stack */
+}
+
+::placeholder {
+    color: #4b5563;
+    /* Darker gray for placeholder */
+    opacity: 1;
 }
 
 input:focus {
@@ -119,24 +199,269 @@ input:focus {
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
-button#saveData {
-    width: 100%;
-    max-width: 400px;
-    padding: 0.875rem;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-    margin-top: 0.5rem;
+/* Modern Form Styling */
+.form-container {
+    background: #ffffff;
+    width: 95%;
+    /* Responsive width */
+    max-width: 750px;
+    /* Decreased Width as requested (was 1100px) */
+    margin: 0 auto;
+    /* Centering */
+    padding: 2rem;
+    /* Increased padding for breathing room */
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
 }
 
-button#saveData:hover {
-    background-color: var(--primary-hover);
+.form-container:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
+
+.form-container h3 {
+    color: #000000;
+    /* Pure Black as requested */
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    /* Reduced spacing between groups */
+}
+
+.form-group label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+    /* Tighten label-input gap */
+    transition: color 0.2s;
+}
+
+.form-group:hover label {
+    color: #4f46e5;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    /* Slightly compact input height */
+    font-size: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    /* Slightly smaller radius for compact look */
+    background-color: #f9fafb;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 0;
+    /* Remove input margin, use form-group instead */
+}
+
+.form-group input:hover,
+.form-group select:hover {
+    background-color: #ffffff;
+    border-color: #9ca3af;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #4f46e5;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.submit-container button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, var(--color-muted-blue) 0%, var(--color-dark-purple) 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(62, 48, 101, 0.3);
+}
+
+.submit-container button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(62, 48, 101, 0.4);
+    background: linear-gradient(135deg, var(--color-dark-purple) 0%, var(--color-muted-blue) 100%);
+}
+
+button.btn-secondary {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: var(--color-muted-blue);
+    color: white;
+    transition: background-color 0.2s, transform 0.2s;
+    border: none;
+}
+
+button.btn-secondary:hover {
+    background-color: var(--color-dark-purple);
+    transform: translateY(-2px);
+}
+
+.submit-container button:active {
+    transform: translateY(-1px);
+}
+
+/* User Cards Grid & Animation */
+.user-cards-grid {
+    display: grid;
+    /* Force 4 columns on large screens as requested */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+/* Responsive Grid */
+@media (max-width: 1200px) {
+    .user-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .user-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .user-cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* User Card Style */
+.user-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid #f3f4f6;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.user-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, #4f46e5, #818cf8);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.user-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.user-card:hover::before {
+    opacity: 1;
+}
+
+.user-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.5rem;
+}
+
+.user-card-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #111827;
+}
+
+.user-card-role {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 9999px;
+    font-weight: 700;
+}
+
+.role-admin {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.role-user {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.user-card-email {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+/* Card Actions */
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #f3f4f6;
+}
+
+.card-actions button {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.btn-card-edit {
+    background-color: var(--color-pale-mint);
+    color: var(--color-dark-purple);
+    font-weight: 700;
+}
+
+.btn-card-edit:hover {
+    background-color: var(--color-muted-teal);
+    color: white;
+}
+
+.btn-card-delete {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+    font-weight: 700;
+}
+
+.btn-card-delete:hover {
+    background-color: rgba(220, 38, 38, 0.2);
+}
+
+
 
 /* Dashboard Grid */
 #container {
@@ -149,11 +474,7 @@ button#saveData:hover {
     margin-top: 3rem;
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
-    width: 100%;
-    max-width: 600px;
-}
+
 
 .submit-container {
     display: flex;
@@ -161,8 +482,12 @@ button#saveData:hover {
 }
 
 /* Dashboard Cards */
+/* Dashboard Cards */
 #container p {
-    background-color: var(--card-background);
+    background-color: #ffffff;
+    /* Explicit White background */
+    color: #000000;
+    /* Default text black */
     border-radius: var(--radius);
     padding: 1.5rem;
     box-shadow: var(--shadow);
@@ -186,7 +511,8 @@ button#saveData:hover {
 
 #container h3 {
     font-size: 0.875rem;
-    color: var(--text-secondary);
+    color: #4b5563;
+    /* Dark Gray for ID */
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin: 0;
@@ -196,7 +522,8 @@ button#saveData:hover {
     font-size: 1.25rem;
     font-weight: 700;
     margin: 0.25rem 0 1rem 0;
-    color: var(--text-color);
+    color: #000000;
+    /* Pure Black for Animal Name */
 }
 
 /* Card Buttons */
@@ -259,7 +586,8 @@ body.login-body {
 
 .auth-form h2 {
     text-align: center;
-    color: var(--text-color);
+    color: #000000;
+    /* Pure Black as requested */
     margin-top: 0;
 }
 
@@ -320,29 +648,72 @@ label[for="image"] {
 }
 
 /* Mobile Responsiveness */
+@media (max-width: 1024px) {
+
+    .admin-management,
+    .nav-container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Tablet & Large Mobile */
+    h1 {
+        font-size: 2rem;
+    }
+
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-container button {
+        width: 100%;
+        /* Full width buttons on mobile */
+        max-width: 400px;
+    }
+
+    .user-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 600px) {
+
+    /* Mobile Portrait */
     body {
         padding: 1rem;
     }
 
     h1 {
-        font-size: 1.75rem;
-        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
     }
 
-    .nav-container {
-        justify-content: center;
-        /* Center logout on small screens */
+    .form-container {
+        padding: 1.5rem;
+        width: 100%;
     }
 
-    /* Stack cards in single column on extremely small screens if needed */
+    /* Grids to single column */
+    .user-cards-grid,
     #container {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
     }
 
-    /* Ensure form is usable */
+    /* Stack card actions if needed, or keep row */
+    .card-actions {
+        flex-direction: row;
+    }
+
+    .login-container,
     .auth-form {
-        padding: 1.5rem;
+        max-width: 100%;
+        width: 100%;
     }
 }
